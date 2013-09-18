@@ -1,0 +1,47 @@
+#File Locations
+JCC = /msu/res1/Software/javaCC/javacc-5.0/bin/javacc
+JCCJAR = /msu/res1/Software/javaCC/javacc-5.0/bin/lib/javacc.jar
+#JAVAC = javac
+JAVAC = /opt/db2/sqllib/java/jdk64/bin/javac
+JAVACFLAGS = -d bin  -cp bin -sourcepath src
+SRC= ./src/gov/frb/ma/msu/AMA.java \
+./src/gov/frb/ma/msu/AMAConstants.java \
+./src/gov/frb/ma/msu/AMATokenManager.java \
+./src/gov/frb/ma/msu/ParseException.java \
+./src/gov/frb/ma/msu/ProductNode.java \
+./src/gov/frb/ma/msu/SimpleCharStream.java \
+./src/gov/frb/ma/msu/Token.java \
+./src/gov/frb/ma/msu/TokenMgrError.java \
+./src/gov/frb/ma/msu/VariableNode.java \
+CLS=  ./bin/gov/frb/ma/msu/AMA.class \
+./bin/gov/frb/ma/msu/AMAConstants.class \
+./bin/gov/frb/ma/msu/AMATokenManager.class \
+./bin/gov/frb/ma/msu/ParseException.class \
+./bin/gov/frb/ma/msu/ProductNode.class \
+./bin/gov/frb/ma/msu/SimpleCharStream.class \
+./bin/gov/frb/ma/msu/Token.class \
+./bin/gov/frb/ma/msu/TokenMgrError.class \
+./bin/gov/frb/ma/msu/VariableNode.class 
+
+
+
+.SUFFIXES : .class .java
+.java.class :
+
+../trollAMA.jar: all
+	 cd bin;jar cf ../../trollAMA.jar gov
+
+all: $(CLS)
+	 mkdir -p bin
+			$(JAVAC) $(JAVACFLAGS) ./src/gov/frb/ma/msu/AMA.java 
+
+AMA.java : ./src/gov/frb/ma/msu/AMA.jj
+				 cd ./src/gov/frb/ma/msu/; \
+				 rm -f TokenMgrError.java ParseException.java \
+				 Token.java SimpleCharStream.java ;\
+				 $(JCC) AMA.jj
+
+
+clean:
+		rm -rf bin
+		rm ../trollAMA.jar 
